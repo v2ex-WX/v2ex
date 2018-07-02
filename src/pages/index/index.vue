@@ -38,9 +38,10 @@ export default {
   methods: {
     tabSelct(headItem, index) {
       this.selectTab = index;
+      
       //    wx.showLoading({
       //     title: "加载中"
-      //   });
+      //   }); 
     }
   },
   created() {
