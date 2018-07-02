@@ -1,105 +1,88 @@
 <template>
-  <div class="container" @click="clickHandle('test click', $event)">
-
-    <div class="userinfo" @click="bindViewTap">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-      <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
-      </div>
+    <div class='container'>
+        <div class='header'>
+            <scroll-view class="scroll-view_x" scroll-x style="width: auto;overflow:hidden;" scroll-with-animation="true">
+                <div class="item" :class="[selectTab == index ? 'activeItem' : 'item']" v-for='(headItem,index) in headTitle' :key='index' @click="tabSelct(headItem,index)">{{headItem}}</div>
+            </scroll-view>
+        </div>
+        <div class="cards">
+            <card :items="headTitle"></card>
+        </div>
     </div>
-
-    <div class="usermotto">
-      <div class="user-motto">
-        <card :text="motto"></card>
-      </div>
-    </div>
-
-    <form class="form-container">
-      <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-      <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    </form>
-    <a href="/pages/counter/main" class="counter">去往Vuex示例页面</a>
-  </div>
-</template>
+</template> 
 
 <script>
-import card from '@/components/card'
-
+import card from "@/components/card";
 export default {
-  data () {
+  data() {
     return {
-      motto: 'Hello World',
-      userInfo: {}
-    }
+      headTitle: [
+        "全部",
+        "技术",
+        "创意",
+        "好玩",
+        "Apple",
+        "酷工作",
+        "交易",
+        "城市",
+        "问与答",
+        "最热",
+        "R2"
+      ],
+      selectTab: "0"
+    };
   },
-
-  components: {
+   components: {
     card
   },
-
   methods: {
-    bindViewTap () {
-      const url = '../logs/main'
-      wx.navigateTo({ url })
-    },
-    getUserInfo () {
-      // 调用登录接口
-      wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              this.userInfo = res.userInfo
-            }
-          })
-        }
-      })
-    },
-    clickHandle (msg, ev) {
-      console.log('clickHandle:', msg, ev)
+    tabSelct(headItem, index) {
+      this.selectTab = index;
+      //    wx.showLoading({
+      //     title: "加载中"
+      //   });
     }
   },
-
-  created () {
+  created() {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
+    // this.getUserInfo();
   }
-}
+};
 </script>
 
-<style scoped>
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style lang="scss" scoped>
+.container {
+  background-color: #efefef;
+  font-size: 30rpx;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 0rpx;
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 86rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: #fe9f28;
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 150px;
-}
-
-.form-control {
-  display: block;
-  padding: 0 12px;
-  margin-bottom: 5px;
-  border: 1px solid #ccc;
-}
-
-.counter {
-  display: inline-block;
-  margin: 10px auto;
-  padding: 5px 10px;
-  color: blue;
-  border: 1px solid blue;
+    .item {
+      width: 150rpx;
+      color: #606060;
+      text-align: center;
+      height: 83rpx;
+      line-height: 83rpx;
+      display: inline-block;
+    }
+    .activeItem {
+      color: white;
+      border-bottom: 4rpx #fff solid;
+    }
+  }
+  .cards{
+      margin-top: 105rpx;
+      width: 100%;
+  }
 }
 </style>
